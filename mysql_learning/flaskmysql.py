@@ -33,8 +33,7 @@ class RoutingSession(SignallingSession):
             if bind_key is not None:
                 return state.db.get_engine(self.app, bind=bind_key)
 
-        from sqlalchemy.sql.dml import UpdateBase
-        if self._flushing or isinstance(clause, UpdateBase):
+        if self._flushing:
             return state.db.get_engine(self.app, bind="master")
         else:
             slave_key = random.choice(["slave1", "slave2"])
